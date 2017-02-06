@@ -23,14 +23,14 @@ void logString(char * data)
 
 int action(char* command)
 {
-	STARTUPINFOW si;
+	STARTUPINFOA si;
 	PROCESS_INFORMATION pi;
 
 	ZeroMemory(&si, sizeof(si));
 	si.cb = sizeof(si);
 	ZeroMemory(&pi, sizeof(pi));
 
-	if (CreateProcessA(NULL, command, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
+	if (CreateProcessA(NULL, command, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
 	{
 		WaitForSingleObject(pi.hProcess, INFINITE);
 		CloseHandle(pi.hProcess);
@@ -44,7 +44,7 @@ void handleKeyboardEvent(unsigned __int64 type, KBDLLHOOKSTRUCT * eventData)
 	switch (type)
 	{
 	case WM_KEYDOWN:
-		for (int i = 0 ; i < hotkeys_config.count ; i++)
+		for (DWORD i = 0 ; i < hotkeys_config.count ; i++)
 			if (hotkeys_config.evt[i].code == eventData->vkCode)
 			{
 				CreateThread(
@@ -54,12 +54,13 @@ void handleKeyboardEvent(unsigned __int64 type, KBDLLHOOKSTRUCT * eventData)
 					hotkeys_config.evt[i].action,       // argument to thread function 
 					0,									// use default creation flags 
 					NULL);								// return 
-
+#ifdef HOTKEYS_LOGGING
 				int action_len = strlen(hotkeys_config.evt[i].action);
 				char * message = malloc(sizeof(char)*(action_len + 80));
 				sprintf_s(message, action_len + 80, "KEYDOWN=%d\tACTION=%s", eventData->vkCode, hotkeys_config.evt[i].action);
 				logString(message);
 				free(message);
+#endif
 			}
 		break;
 	case WM_KEYUP:

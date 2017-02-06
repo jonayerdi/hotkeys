@@ -27,6 +27,13 @@
     <ClInclude Include="configuration.h" />
     <ClInclude Include="handler.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Hotkeys.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DA5C3BDE-8B5B-4737-BEC0-358F4C6D6FFB}</ProjectGuid>

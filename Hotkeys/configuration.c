@@ -66,8 +66,6 @@ int parseConfiguration(char * config)
 	for (int i = 0; lines[i]; i++)
 		parseLine(lines[i]);
 	free_split(lines);
-	for (int i = 0; i < hotkeys_config.count; i++)
-		printf("vkCode: %d   action: %s", hotkeys_config.evt[i].code, hotkeys_config.evt[i].action);
 	return 0;
 }
 
